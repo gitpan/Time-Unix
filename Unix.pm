@@ -1,5 +1,5 @@
 
-# $Id: Unix.pm,v 1.2 2000/09/12 20:08:33 nwiger Exp $
+# $Id: Unix.pm,v 1.3 2001/09/19 18:32:29 nwiger Exp $
 ####################################################################
 #
 # Copyright (c) 2000 Nathan Wiger <nate@sun.com>
@@ -31,9 +31,11 @@
 require 5.003;
 package Time::Unix;
 
+use Time::Local;
+
 use strict;
 use vars qw(@EXPORT @ISA $VERSION);
-$VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r };
+$VERSION = do { my @r=(q$Revision: 1.3 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r };
 
 use Exporter;
 @ISA = qw(Exporter);
@@ -42,7 +44,11 @@ use Exporter;
 # Set up our time diff based on the difference in seconds
 # between the UNIX epoch and the epoch on a given platform
 my $DAY_SECS  = 86400;
-my $TIME_OFFSET = ($^O eq "MacOS") ? (-24107 * $DAY_SECS) : 0;
+my $TIME_OFFSET = ($^O eq "MacOS")
+    ? (-24107 * $DAY_SECS) -
+        sprintf "%+0.4d", (timelocal(localtime) - timelocal(gmtime))
+    : 0;
+
 sub time () { CORE::time() + $TIME_OFFSET }
 
 # Dang typeglobs don't work right on CORE functions...
@@ -78,6 +84,10 @@ do that.
 =head1 REFERENCES
 
 See http://dev.perl.org/rfc/99.html for a complete description.
+
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to Chris Nandor <pudge@pobox.com> for the MacOS time code.
 
 =head1 AUTHOR
 

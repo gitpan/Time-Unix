@@ -1,5 +1,6 @@
+Unix.pm
+Makefile.PL
+test.pl
 Changes
 MANIFEST
-Makefile.PL
-Unix.pm
-test.pl
+README
