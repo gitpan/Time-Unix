@@ -1,5 +1,5 @@
 
-# $Id: Unix.pm,v 1.1 2000/09/12 19:44:21 nwiger Exp $
+# $Id: Unix.pm,v 1.2 2000/09/12 20:08:33 nwiger Exp $
 ####################################################################
 #
 # Copyright (c) 2000 Nathan Wiger <nate@sun.com>
@@ -33,7 +33,7 @@ package Time::Unix;
 
 use strict;
 use vars qw(@EXPORT @ISA $VERSION);
-$VERSION = do { my @r=(q$Revision: 1.1 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r };
+$VERSION = do { my @r=(q$Revision: 1.2 $=~/\d+/g); sprintf "%d."."%02d"x$#r,@r };
 
 use Exporter;
 @ISA = qw(Exporter);
@@ -43,7 +43,7 @@ use Exporter;
 # between the UNIX epoch and the epoch on a given platform
 my $DAY_SECS  = 86400;
 my $TIME_OFFSET = ($^O eq "MacOS") ? (-24107 * $DAY_SECS) : 0;
-sub time () { print "bob: @_"; CORE::time() + $TIME_OFFSET }
+sub time () { CORE::time() + $TIME_OFFSET }
 
 # Dang typeglobs don't work right on CORE functions...
 sub systime () { CORE::time() }
